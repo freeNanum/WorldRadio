@@ -177,6 +177,18 @@
         #station-list li.playing .station-genre {
             color: #333;
         }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
     </style>
 </head>
 <body>
@@ -206,9 +218,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // NOTE: These stream URLs are for demonstration purposes.
-            // Real-world stream URLs can be volatile. A dedicated radio API service
-            // would be needed for a production application to ensure streams are live.
             const radioData = {
                 "United States": [
                     { name: "KCRW Eclectic24", city: "Santa Monica", genre: "Indie", url: "http://kcrw.streamguys1.com/kcrw_eclectic24_128k_mp3" },
@@ -249,7 +258,7 @@
                     { name: "Absolute Radio", city: "London", genre: "Rock", url: "http://ais.absoluteradio.co.uk/absoluteradio.mp3" },
                     { name: "Kerrang! Radio", city: "London", genre: "Rock/Metal", url: "http://tx.planetradio.co.uk/icecast.php?i=kerrang.mp3" },
                     { name: "Worldwide FM", city: "London", genre: "Eclectic", url: "https://worldwidefm.out.airtime.pro/worldwidefm_a" },
-                    { name: "Balamii", city: "London", genre: "Electronic", url: "http://radio.balamii.com:8000/2" },
+                    { name: "Soho Radio", city: "London", genre: "Eclectic/Culture", url: "https://s2.radio.co/s5f2849591/listen" },
                     { name: "Reprezent Radio", city: "London", genre: "Hip Hop/Electronic", url: "http://radio.reprezent.org.uk:8000/stream" },
         			{ name: "Subtle Radio", city: "London", genre: "Bass Music", url: "https://subtleradio.out.airtime.pro/subtleradio_a" },
         			{ name: "The Lot Radio", city: "New York/London", genre: "Underground Electronic", url: "https://thelot.out.airtime.pro/thelot_a" }
@@ -321,10 +330,10 @@
         			{ name: "Rire et Chansons", city: "Paris", genre: "Comedy/Pop", url: "http://185.52.127.132/fr/30401/mp3_128.mp3" }
                 ],
                  "Australia": [
-                    { name: "Triple J", city: "Sydney", genre: "Alternative", url: "http://live-radio01.mediahubaustralia.com/3JJJ/mp3/" },
+                    { name: "Triple J", city: "Sydney", genre: "Alternative", url: "https://ic6.mainstreamnetwork.com/triplej-128.mp3" },
                     { name: "Double J", city: "Sydney", genre: "Nostalgic Alt", url: "http://live-radio01.mediahubaustralia.com/3DBL/mp3/" },
                     { name: "ABC Classic", city: "Sydney", genre: "Classical", url: "http://live-radio01.mediahubaustralia.com/3ABCFM/mp3/" },
-                    { name: "ABC RN", city: "Sydney", genre: "Talk/News", url: "http://live-radio01.mediahubaustralia.com/3RN/mp3/" },
+                    { name: "ABC RN", city: "Sydney", genre: "Talk/News", url: "https://ic6.mainstreamnetwork.com/abcrn-128.mp3" },
                     { name: "PBS 106.7FM", city: "Melbourne", genre: "Community/Specialist", url: "https://playerservices.streamtheworld.com/api/livestream-redirect/PBSFM_ADP.m3u8" },
                     { name: "RRR 102.7FM", city: "Melbourne", genre: "Community/Music", url: "http://real.rrr.org.au:8000/128" },
                     { name: "FBi Radio 94.5", city: "Sydney", genre: "Local Music/Arts", url: "http://stream.fbiradio.com:8000/stream.mp3" },
@@ -338,9 +347,9 @@
                     { name: "SEN 1116", city: "Melbourne", genre: "Sports", url: "https://playerservices.streamtheworld.com/api/livestream-redirect/SEN1116.mp3" },
                     { name: "ABC Jazz", city: "National", genre: "Jazz", url: "http://live-radio01.mediahubaustralia.com/3JAZ/mp3/" },
                     { name: "ABC Country", city: "National", genre: "Country", url: "http://live-radio01.mediahubaustralia.com/3ABCR/mp3/" },
-                    { name: "Kiss FM", city: "Melbourne", genre: "Dance", url: "https://kissfm.out.airtime.pro/kissfm_a" },
-                    { name: "Edge 96.1", city: "Sydney", genre: "RnB/Dance", url: "https://playerservices.streamtheworld.com/api/livestream-redirect/THEEDGE961.mp3" },
-                    { name: "3AW", city: "Melbourne", genre: "News/Talk", url: "https://live.streaming.afl.com.au/3aw-693" }
+                    { name: "KIIS 101.1", city: "Melbourne", genre: "Top 40", url: "https://playerservices.streamtheworld.com/api/livestream-redirect/KIIS1011.mp3" },
+                    { name: "CADA 96.1", city: "Sydney", genre: "Hip Hop/RnB", url: "https://playerservices.streamtheworld.com/api/livestream-redirect/CADA.mp3" },
+                    { name: "3AW", city: "Melbourne", genre: "News/Talk", url: "https://stream.3aw.com.au/3aw" }
                 ],
                 "Japan": [
                     { name: "NHK Radio 1", city: "Tokyo", genre: "General", url: "https://nhkradioakr1-i.akamaihd.net/hls/live/511633/1-r1/1-r1-01.m3u8" },
@@ -1044,46 +1053,429 @@
                     { name: "Vung Tau Radio", city: "Vũng Tàu", genre: "Local", url: "http://brt.vn:8000/brt" },
                     { name: "Binh Duong Radio", city: "Thủ Dầu Một", genre: "Local", url: "http://btv.org.vn:8000/;" },
                     { name: "Can Tho Radio", city: "Cần Thơ", genre: "Local", url: "http://canthotv.vn:8000/;" }
+                ],
+                "Indonesia": [
+                    { name: "Prambors FM", city: "Jakarta", genre: "Top 40", url: "http://masima.rastream.com/masima-pramborsjakarta" },
+                    { name: "Delta FM", city: "Jakarta", genre: "Adult Contemporary", url: "http://masima.rastream.com/masima-deltafmjakarta" },
+                    { name: "Gen FM", city: "Jakarta", genre: "Pop", url: "http://202.138.249.147/genfm" },
+                    { name: "Hard Rock FM", city: "Jakarta", genre: "Rock/Pop", url: "http://stream.mratel.com/hardrockfm" },
+                    { name: "I-Radio", city: "Jakarta", genre: "Indonesian Pop", url: "http://stream.mratel.com/iradio" },
+                    { name: "Trax FM", city: "Jakarta", genre: "Top 40", url: "http://stream.mratel.com/trax" },
+                    { name: "Elshinta", city: "Jakarta", genre: "News/Talk", url: "http://202.137.4.147:8000/;" },
+                    { name: "RRI Pro 3", city: "Jakarta", genre: "News", url: "http://live.rri.co.id:8000/rripro3" },
+                    { name: "Global Radio", city: "Jakarta", genre: "Top 40", url: "http://202.147.199.99:8000/globalradio.mp3" },
+                    { name: "Mustang 88 FM", city: "Jakarta", genre: "Pop", url: "http://103.226.244.5:8000/mustang88fm" },
+                    { name: "Kis FM", city: "Jakarta", genre: "Pop", url: "http://103.226.244.5:8000/kisfm" },
+                    { name: "Most Radio", city: "Jakarta", genre: "Pop", url: "http://103.226.244.5:8000/mostradio" },
+                    { name: "Pas FM", city: "Jakarta", genre: "Business", url: "http://radio.pasfm.com:9730/;" },
+                    { name: "Smart FM", city: "Jakarta", genre: "Business", url: "http://119.2.52.147:8000/;" },
+                    { name: "V-Radio", city: "Jakarta", genre: "Women's Talk/Music", url: "http://118.97.82.2:8000/;" },
+                    { name: "Sonora FM", city: "Jakarta", genre: "News/Pop", url: "http://119.2.52.147:8000/;" },
+                    { name: "RDI", city: "Jakarta", genre: "Dangdut", url: "http://202.147.199.99:8000/rdi.mp3" },
+                    { name: "FeMale Radio", city: "Jakarta", genre: "Pop", url: "http://masima.rastream.com/masima-femaleradio" },
+                    { name: "Virgin Radio", city: "Jakarta", genre: "Top 40", url: "http://202.138.249.147/virgin" },
+                    { name: "Bahana FM", city: "Jakarta", genre: "Pop", url: "http://masima.rastream.com/masima-bahanafm" }
+                ],
+                "Egypt": [
+                    { name: "Nogoum FM", city: "Cairo", genre: "Arabic Pop", url: "http://nogoum.fm:8000/NogoumFM" },
+                    { name: "Nile FM", city: "Cairo", genre: "Top 40", url: "http://178.32.62.163:8841/;" },
+                    { name: "Radio Hits 88.2", city: "Cairo", genre: "Pop", url: "http://178.32.62.163:8829/;" },
+                    { name: "Mega FM 92.7", city: "Cairo", genre: "Pop", url: "http://178.32.62.163:8835/;" },
+                    { name: "Radio Masr", city: "Cairo", genre: "General", url: "http://178.32.62.163:8823/;" },
+                    { name: "ERTU Al Quran Al Kareem", city: "Cairo", genre: "Religious", url: "http://main.egradio.eg:8000/Quran" },
+                    { name: "ERTU Al-Bernameg Al-Aam", city: "Cairo", genre: "Public", url: "http://main.egradio.eg:8000/Gen" },
+                    { name: "Mahatet Masr", city: "Cairo", genre: "Pop/Talk", url: "http://176.31.241.178:8032/stream" },
+                    { name: "Radio 9090", city: "Cairo", genre: "Pop", url: "http://9090.fm:8000/9090" },
+                    { name: "El Gouna Radio", city: "El Gouna", genre: "Pop/Dance", url: "http://stream.elgounaradio.com:8000/stream" },
+                    { name: "Radio Sotak", city: "Online", genre: "Arabic", url: "http://sotak.live:8000/;" },
+                    { name: "Egonair Radio", city: "Cairo", genre: "Arabic Pop", url: "http://167.114.116.224:8033/;" },
+                    { name: "Rehab FM", city: "Cairo", genre: "Pop", url: "http://192.99.170.8:5350/;" },
+                    { name: "Radio Shabab", city: "Cairo", genre: "Youth", url: "http://main.egradio.eg:8000/Shabab" },
+                    { name: "Nagham FM", city: "Cairo", genre: "Pop", url: "http://178.32.62.163:8826/;" },
+                    { name: "Radio One Dirty", city: "Online", genre: "Dance", url: "http://51.15.193.186:8026/stream" },
+                    { name: "Sound of Sakia", city: "Cairo", genre: "Cultural", url: "http://192.99.150.52:7106/;" },
+                    { name: "Radio Arabia", city: "Online", genre: "Arabic", url: "http://s2.voscast.com:10256/;" },
+                    { name: "Banha City Tarab", city: "Banha", genre: "Classic Arabic", url: "http://188.165.212.152:8052/;" },
+                    { name: "Radio Tiba", city: "Cairo", genre: "Arabic", url: "http://s3.voscast.com:8842/;" }
+                ],
+                "Philippines": [
+                    { name: "Yes! The Best 101.1", city: "Manila", genre: "Pop", url: "http://119.92.112.98/yesfmmanila/128/icecast.audio" },
+                    { name: "MOR 101.9 For Life!", city: "Manila", genre: "Pop", url: "http://mor1019.out.airtime.pro:8000/mor1019_a" },
+                    { name: "Love Radio 90.7", city: "Manila", genre: "Pop", url: "http://119.92.112.98/loveradiomanila/128/icecast.audio" },
+                    { name: "Easy Rock 96.3", city: "Manila", genre: "Soft Rock", url: "http://119.92.112.98/easyrockmanila/128/icecast.audio" },
+                    { name: "Monster RX 93.1", city: "Manila", genre: "Top 40", url: "http://audiostreaming.top-logic.com:8000/monster" },
+                    { name: "97.9 Home Radio", city: "Manila", genre: "Easy Listening", url: "http://radio.servats.com:8434/;" },
+                    { name: "DWIZ 882", city: "Manila", genre: "News/Talk", url: "http://136.243.159.20:8012/;" },
+                    { name: "DZAS 702", city: "Manila", genre: "Religious", url: "http://s5.voscast.com:9328/;" },
+                    { name: "Radyo Pilipinas 1", city: "Manila", genre: "Public", url: "http://beta.stretchinternet.com/stretch_live_sw.php?station=pbs&" },
+                    { name: "Wish 107.5", city: "Manila", genre: "Pop", url: "https://streaming.wish1075.com/radio/8000/wish1075.mp3" },
+                    { name: "Magic 89.9", city: "Manila", genre: "Top 40", url: "http://s01.radio-live.org:8000/magic899" },
+                    { name: "Crossover 105.1", city: "Manila", genre: "Jazz/Soul", url: "https://streaming.crossover.com.ph/crossover1051" },
+                    { name: "Star FM", city: "Manila", genre: "Pop", url: "http://bomboradyo.mixlr.com/stations/bomboradyo-starfm-manila" },
+                    { name: "iFM 93.9", city: "Manila", genre: "Pop", url: "http://136.243.159.20:8048/;" },
+                    { name: "Energy FM 106.7", city: "Manila", genre: "Pop", url: "http://s2.stationplaylist.com:8452/;" },
+                    { name: "RMN News", city: "Manila", genre: "News", url: "http://136.243.159.20:8052/;" },
+                    { name: "DYRD-AM Worldwide", city: "Bohol", genre: "Local", url: "http://s2.stationplaylist.com:7000/;" },
+                    { name: "Bombo Radyo", city: "Manila", genre: "News/Talk", url: "http://174.37.154.52:8227/;" },
+                    { name: "Kool 106", city: "Online", genre: "Pop", url: "http://s2.stationplaylist.com:7104/;" },
+                    { name: "Atlantis Radio", city: "Online", genre: "80s/90s", url: "http://s7.voscast.com:8812/;" }
+                ],
+                "Thailand": [
+                    { name: "Cool Fahrenheit 93", city: "Bangkok", genre: "Pop", url: "http://coolism-radio.atimemedia.com/coolism" },
+                    { name: "EFM 94", city: "Bangkok", genre: "Top 40", url: "http://efm-radio.atimemedia.com/efm" },
+                    { name: "Green Wave 106.5", city: "Bangkok", genre: "Pop", url: "http://greenwave-radio.atimemedia.com/greenwave" },
+                    { name: "Hitz 955", city: "Bangkok", genre: "Top 40", url: "http://stream.becteroradio.com/hitz955.mp3" },
+                    { name: "Met 107", city: "Bangkok", genre: "International Pop", url: "http://radio.mcot.net/met107" },
+                    { name: "Cat Radio", city: "Bangkok", genre: "Indie", url: "http://112.121.150.133:8181/catradio" },
+                    { name: "Fungjai", city: "Bangkok", genre: "Indie", url: "http://stream.fungjai.com:8000/live" },
+                    { name: "Looktung Mahanakorn", city: "Bangkok", genre: "Luk thung", url: "http://radio.mcot.net/fm95" },
+                    { name: "MCOT FM 100.5", city: "Bangkok", genre: "News", url: "http://radio.mcot.net/fm1005" },
+                    { name: "Ondio", city: "Online", genre: "Indie", url: "http://shoutcast.ondio.in:8000/;" },
+                    { name: "Eazy FM 105.5", city: "Bangkok", genre: "Easy Listening", url: "http://stream.becteroradio.com/eazy1055.mp3" },
+                    { name: "Virgin Hitz", city: "Bangkok", genre: "Top 40", url: "http://stream.becteroradio.com/virginhitz.mp3" },
+                    { name: "Active 99", city: "Bangkok", genre: "Talk/Sports", url: "http://radio.mcot.net/fm99" },
+                    { name: "City Radio Pattaya", city: "Pattaya", genre: "Local", url: "http://live.cityradiopattaya.com:8000/;" },
+                    { name: "Radio Thailand", city: "Bangkok", genre: "Public", url: "http://radio.prd.go.th:8000/prd1.mp3" },
+                    { name: "The Shock FM", city: "Bangkok", genre: "Talk/Horror", url: "http://shoutcast.theshock.co.th:8000/;" },
+                    { name: "Kiss FM", city: "Bangkok", genre: "Dance", url: "http://167.114.64.181:8152/;" },
+                    { name: "98 EDS", city: "Bangkok", genre: "Pop", url: "http://112.121.150.133:8000/98eds" },
+                    { name: "OK Love", city: "Bangkok", genre: "Pop", url: "http://112.121.150.133:8000/oklove" },
+                    { name: "Smooth 103", city: "Bangkok", genre: "Easy Listening", url: "http://112.121.150.133:8000/smooth" }
+                ],
+                "Peru": [
+                    { name: "RPP Noticias", city: "Lima", genre: "News", url: "http://15843.live.streamtheworld.com/RPP_SC" },
+                    { name: "Ritmo Romántica", city: "Lima", genre: "Romantic", url: "http://16543.live.streamtheworld.com/CRP_RIT_SC" },
+                    { name: "Radio Moda", city: "Lima", genre: "Reggaeton/Pop", url: "http://16603.live.streamtheworld.com/CRP_MOD_SC" },
+                    { name: "Radio Oasis", city: "Lima", genre: "Rock/Pop", url: "http://16603.live.streamtheworld.com/CRP_OAS_SC" },
+                    { name: "La Inolvidable", city: "Lima", genre: "Oldies", url: "http://16543.live.streamtheworld.com/CRP_NVA_SC" },
+                    { name: "Radio Felicidad", city: "Lima", genre: "Oldies", url: "http://15843.live.streamtheworld.com/FELICIDAD_SC" },
+                    { name: "Radio Mágica", city: "Lima", genre: "80s/90s", url: "http://16543.live.streamtheworld.com/CRP_MAG_SC" },
+                    { name: "Radio Corazón", city: "Lima", genre: "Romantic", url: "http://15843.live.streamtheworld.com/CORAZON_SC" },
+                    { name: "Studio 92", city: "Lima", genre: "Top 40", url: "http://15843.live.streamtheworld.com/STUDIO92_SC" },
+                    { name: "Radio Planeta", city: "Lima", genre: "Top 40", url: "http://16543.live.streamtheworld.com/CRP_PLN_SC" },
+                    { name: "Radio La Zona", city: "Lima", genre: "Urban", url: "http://15843.live.streamtheworld.com/LAZONA_SC" },
+                    { name: "Exitosa", city: "Lima", genre: "News", url: "http://stream.radioexitosa.pe:8080/;" },
+                    { name: "Radio Capital", city: "Lima", genre: "News/Talk", url: "http://15843.live.streamtheworld.com/CAPITAL_SC" },
+                    { name: "Z Rock & Pop", city: "Lima", genre: "Rock", url: "http://radio.zrockandpop.com:8000/;" },
+                    { name: "Radio Oxigeno", city: "Lima", genre: "Classic Rock", url: "http://15843.live.streamtheworld.com/OXIGENO_SC" },
+                    { name: "Doble Nueve", city: "Lima", genre: "Alternative Rock", url: "http://192.99.150.52:8000/;" },
+                    { name: "Filarmonía", city: "Lima", genre: "Classical", url: "http://s3.amazonaws.com/ww-radio-stream/filarmonia.mp3" },
+                    { name: "Radio Mar Plus", city: "Lima", genre: "Salsa", url: "http://radiomar.pe:8080/;" },
+                    { name: "Nueva Q", city: "Lima", genre: "Cumbia", url: "http://16543.live.streamtheworld.com/CRP_NQ_SC" },
+                    { name: "Panamericana Radio", city: "Lima", genre: "Salsa", url: "http://184.154.43.181:8050/;" }
+                ],
+                "Malaysia": [
+                    { name: "Hitz FM", city: "Kuala Lumpur", genre: "Top 40", url: "https://astro-hitz-audio.sgp1.cdn.digitaloceanspaces.com/hitz/hitz-128.m3u8" },
+                    { name: "Mix FM", city: "Kuala Lumpur", genre: "Adult Contemporary", url: "https://astro-mix-audio.sgp1.cdn.digitaloceanspaces.com/mix/mix-128.m3u8" },
+                    { name: "LiteFM", city: "Kuala Lumpur", genre: "Easy Listening", url: "https://astro-lite-audio.sgp1.cdn.digitaloceanspaces.com/lite/lite-128.m3u8" },
+                    { name: "Era FM", city: "Kuala Lumpur", genre: "Malay Pop", url: "https://astro-era-audio.sgp1.cdn.digitaloceanspaces.com/era/era-128.m3u8" },
+                    { name: "Sinar FM", city: "Kuala Lumpur", genre: "Malay Classic", url: "https://astro-sinar-audio.sgp1.cdn.digitaloceanspaces.com/sinar/sinar-128.m3u8" },
+                    { name: "Melody FM", city: "Kuala Lumpur", genre: "Chinese Classic", url: "https://astro-melody-audio.sgp1.cdn.digitaloceanspaces.com/melody/melody-128.m3u8" },
+                    { name: "My FM", city: "Kuala Lumpur", genre: "Chinese Pop", url: "https://astro-my-audio.sgp1.cdn.digitaloceanspaces.com/my/my-128.m3u8" },
+                    { name: "BFM 89.9", city: "Kuala Lumpur", genre: "Business News", url: "http://bfm.audio/" },
+                    { name: "Suria FM", city: "Kuala Lumpur", genre: "Malay Pop", url: "http://202.186.13.204/suriafm_128" },
+                    { name: "THR Raaga", city: "Kuala Lumpur", genre: "Tamil", url: "https://astro-thr-raaga-audio.sgp1.cdn.digitaloceanspaces.com/thr-raaga/thr-raaga-128.m3u8" },
+                    { name: "One FM", city: "Kuala Lumpur", genre: "Chinese Pop", url: "http://202.186.13.204/onefm_128" },
+                    { name: "TraXX FM", city: "Kuala Lumpur", genre: "English Public", url: "http://103.226.244.5:8000/traxxfm" },
+                    { name: "Ai FM", city: "Kuala Lumpur", genre: "Chinese Public", url: "http://103.226.244.5:8000/aifm" },
+                    { name: "Minnal FM", city: "Kuala Lumpur", genre: "Tamil Public", url: "http://103.226.244.5:8000/minnalfm" },
+                    { name: "Asyik FM", city: "Kuala Lumpur", genre: "Indigenous", url: "http://103.226.244.5:8000/asyikfm" },
+                    { name: "Kool FM", city: "Kuala Lumpur", genre: "Pop", url: "http://202.186.13.204/koolfm_128" },
+                    { name: "Cats FM", city: "Sarawak", genre: "Local", url: "http://38.96.148.24:8888/;" },
+                    { name: "Bernama Radio", city: "Kuala Lumpur", genre: "News", url: "http://103.226.244.5:8000/bernamaradio" },
+                    { name: "IKIMfm", city: "Kuala Lumpur", genre: "Islamic", url: "http://103.226.244.5:8000/ikimfm" },
+                    { name: "Hot FM", city: "Kuala Lumpur", genre: "Malay Pop", url: "http://202.186.13.204/hotfm_128" }
+                ],
+                "Ghana": [
+                    { name: "Joy FM", city: "Accra", genre: "News/Pop", url: "http://16023.live.streamtheworld.com/JOY_FM_SC" },
+                    { name: "Adom FM", city: "Accra", genre: "Twi/Talk", url: "http://16023.live.streamtheworld.com/ADOM_FM_SC" },
+                    { name: "Peace FM", city: "Accra", genre: "Twi/Talk", url: "http://192.99.39.148:8120/;" },
+                    { name: "Citi FM", city: "Accra", genre: "News/Pop", url: "http://192.99.39.148:8030/;" },
+                    { name: "Starr FM", city: "Accra", genre: "Pop/Talk", url: "http://192.99.39.148:8130/;" },
+                    { name: "Okay FM", city: "Accra", genre: "Twi/Pop", url: "http://192.99.39.148:8150/;" },
+                    { name: "Angel FM", city: "Accra", genre: "Twi/Pop", url: "http://192.99.39.148:8180/;" },
+                    { name: "Happy FM", city: "Accra", genre: "Sports/Talk", url: "http://192.99.39.148:8280/;" },
+                    { name: "YFM", city: "Accra", genre: "Urban", url: "http://192.99.39.148:8270/;" },
+                    { name: "Live FM", city: "Accra", genre: "Urban", url: "http://192.99.39.148:8140/;" },
+                    { name: "Oman FM", city: "Accra", genre: "Twi/Talk", url: "http://192.99.39.148:8160/;" },
+                    { name: "Asaase Radio", city: "Accra", genre: "Pop/Talk", url: "http://192.99.39.148:8200/;" },
+                    { name: "Class FM", city: "Accra", genre: "Pop/Talk", url: "http://192.99.39.148:8220/;" },
+                    { name: "Neat FM", city: "Accra", genre: "Twi/Talk", url: "http://192.99.39.148:8170/;" },
+                    { name: "Asempa FM", city: "Accra", genre: "Twi/Sports", url: "http://16023.live.streamtheworld.com/ASEMPA_FM_SC" },
+                    { name: "Kasapa FM", city: "Accra", genre: "Twi/Pop", url: "http://192.99.39.148:8190/;" },
+                    { name: "Rainbow Radio", city: "Accra", genre: "Talk", url: "http://192.99.39.148:8230/;" },
+                    { name: "Atinka FM", city: "Accra", genre: "Twi/Pop", url: "http://192.99.39.148:8240/;" },
+                    { name: "Top Radio", city: "Accra", genre: "Talk/Pop", url: "http://192.99.39.148:8250/;" },
+                    { name: "Zylofon FM", city: "Accra", genre: "Entertainment", url: "http://192.99.39.148:8260/;" }
+                ],
+                "Kenya": [
+                    { name: "Classic 105", city: "Nairobi", genre: "Classic Hits", url: "http://playerservices.streamtheworld.com/api/livestream-redirect/CLASSIC105_SC" },
+                    { name: "Kiss 100", city: "Nairobi", genre: "Top 40", url: "http://playerservices.streamtheworld.com/api/livestream-redirect/KISS100_SC" },
+                    { name: "Radio Jambo", city: "Nairobi", genre: "Swahili/Talk", url: "http://playerservices.streamtheworld.com/api/livestream-redirect/RADIOJAMBO_SC" },
+                    { name: "Capital FM", city: "Nairobi", genre: "Pop/Rock", url: "http://192.240.102.133:11394/;" },
+                    { name: "NRG Radio", city: "Nairobi", genre: "Urban", url: "https://s3.radio.co/s8a28c9486/listen" },
+                    { name: "Homeboyz Radio", city: "Nairobi", genre: "Hip Hop", url: "http://192.240.102.133:11396/;" },
+                    { name: "Hope FM", city: "Nairobi", genre: "Gospel", url: "http://192.99.39.148:8060/;" },
+                    { name: "Milele FM", city: "Nairobi", genre: "Swahili/Pop", url: "http://192.99.39.148:8070/;" },
+                    { name: "Ghetto Radio", city: "Nairobi", genre: "Urban", url: "http://192.99.39.148:8050/;" },
+                    { name: "Spice FM", city: "Nairobi", genre: "Soul/Talk", url: "http://192.99.39.148:8040/;" },
+                    { name: "KBC English Service", city: "Nairobi", genre: "Public", url: "http://192.99.39.148:8010/;" },
+                    { name: "Easy FM", city: "Nairobi", genre: "Easy Listening", url: "http://192.99.39.148:8000/;" },
+                    { name: "HBR 103.5", city: "Nairobi", genre: "Urban", url: "http://192.240.102.133:11396/;" },
+                    { name: "Truth FM", city: "Nairobi", genre: "Gospel", url: "http://192.99.39.148:8020/;" },
+                    { name: "Family Radio 316", city: "Nairobi", genre: "Christian", url: "http://192.99.39.148:8030/;" },
+                    { name: "Inooro FM", city: "Nairobi", genre: "Kikuyu", url: "http://rms-radio.streamguys1.com/inooro.mp3" },
+                    { name: "Kameme FM", city: "Nairobi", genre: "Kikuyu", url: "http://192.99.39.148:8100/;" },
+                    { name: "Radio Maisha", city: "Nairobi", genre: "Swahili", url: "http://192.99.39.148:8080/;" },
+                    { name: "Radio Citizen", city: "Nairobi", genre: "Swahili", url: "http://rms-radio.streamguys1.com/citizen.mp3" },
+                    { name: "Hot 96", city: "Nairobi", genre: "Pop", url: "http://rms-radio.streamguys1.com/hot96.mp3" }
+                ],
+                "Morocco": [
+                    { name: "Hit Radio", city: "Rabat", genre: "Top 40", url: "http://hitradio-maroc.ice.infomaniak.ch/hitradio-maroc-128.mp3" },
+                    { name: "MFM Radio", city: "Casablanca", genre: "General", url: "http://mfm.ice.infomaniak.ch/mfm-128.mp3" },
+                    { name: "Radio 2M", city: "Casablanca", genre: "General", url: "http://radio2m.ice.infomaniak.ch/radio2m-128.mp3" },
+                    { name: "MedRadio", city: "Casablanca", genre: "General", url: "http://medradio.ice.infomaniak.ch/medradio-128.mp3" },
+                    { name: "Aswat", city: "Casablanca", genre: "General", url: "http://aswat.ice.infomaniak.ch/aswat-128.mp3" },
+                    { name: "Chada FM", city: "Casablanca", genre: "Pop", url: "http://chadafm.ice.infomaniak.ch/chadafm-128.mp3" },
+                    { name: "Medina FM", city: "Meknes", genre: "General", url: "http://medinafm.ice.infomaniak.ch/medinafm-128.mp3" },
+                    { name: "Radio Mars", city: "Casablanca", genre: "Sports", url: "http://radiomars.ice.infomaniak.ch/radiomars-128.mp3" },
+                    { name: "Atlantic Radio", city: "Casablanca", genre: "Business", url: "http://atlantic.ice.infomaniak.ch/atlantic-128.mp3" },
+                    { name: "Luxe Radio", city: "Casablanca", genre: "Luxury", url: "http://luxeradio.ice.infomaniak.ch/luxeradio-128.mp3" },
+                    { name: "Radio Sawa", city: "Online", genre: "Arabic Pop", url: "http://mbn-channel-01.akacast.akamaistream.net/7/32/233369/v1/gnl.akacast.akamaistream.net/mbn-channel-01" },
+                    { name: "Radio Plus Agadir", city: "Agadir", genre: "Local", url: "http://radioplus.ice.infomaniak.ch/radioplus-128.mp3" },
+                    { name: "Cap Radio", city: "Tangier", genre: "Local", url: "http://capradio.ice.infomaniak.ch/capradio-128.mp3" },
+                    { name: "Radio Orient", city: "Paris/Maghreb", genre: "Arabic", url: "http://broadcast.orient-radio.com:8000/orient.mp3" },
+                    { name: "Beur FM", city: "Paris/Maghreb", genre: "Raï/Pop", url: "http://beurfm.ice.infomaniak.ch/beurfm-128.mp3" },
+                    { name: "Izlan Radio", city: "Online", genre: "Amazigh", url: "http://izlan.ice.infomaniak.ch/izlan-128.mp3" },
+                    { name: "Radio Star", city: "Casablanca", genre: "Pop", url: "http://radiostar.ice.infomaniak.ch/radiostar-128.mp3" },
+                    { name: "Radio Amazigh", city: "Rabat", genre: "Amazigh", url: "http://snrtlive.ma/amazigh-live" },
+                    { name: "Yabiladi Radio", city: "Online", genre: "Chaabi/Pop", url: "http://yabiladi.ice.infomaniak.ch/yabiladi-128.mp3" },
+                    { name: "Radio Coran", city: "Rabat", genre: "Religious", url: "http://snrtlive.ma/coran-live" }
+                ],
+                "Saudi Arabia": [
+                    { name: "Rotana FM", city: "Riyadh", genre: "Khaleeji", url: "http://185.105.4.99:8000/;" },
+                    { name: "Alif Alif FM", city: "Jeddah", genre: "Khaleeji/Pop", url: "http://alifaliffm.cdn.mangomolo.com/alifalif/alifalif-128" },
+                    { name: "Mix FM KSA", city: "Riyadh", genre: "Pop", url: "http://mixfm.cdn.mangomolo.com/mixfm/mixfm-128" },
+                    { name: "UFM", city: "Riyadh", genre: "Sports/Pop", url: "http://ufm.cdn.mangomolo.com/ufm/ufm-128" },
+                    { name: "Panorama FM", city: "Riyadh", genre: "Arabic Pop", url: "http://mbc.fm/stream/panorama" },
+                    { name: "MBC FM", city: "Riyadh", genre: "Khaleeji", url: "http://mbc.fm/stream/mbcfm" },
+                    { name: "Studio1 FM (Aramco)", city: "Dhahran", genre: "Pop", url: "http://50.22.253.47:8090/;" },
+                    { name: "Radio Sawa", city: "Online", genre: "Arabic Pop", url: "http://mbn-channel-01.akacast.akamaistream.net/7/32/233369/v1/gnl.akacast.akamaistream.net/mbn-channel-01" },
+                    { name: "Quran Radio KSA", city: "Riyadh", genre: "Religious", url: "http://sba.radio.sa:8000/quran" },
+                    { name: "Saudia Radio", city: "Riyadh", genre: "Public", url: "http://sba.radio.sa:8000/saudi" },
+                    { name: "Radio Riyadh", city: "Riyadh", genre: "Public", url: "http://sba.radio.sa:8000/riyadh" },
+                    { name: "Radio Jeddah", city: "Jeddah", genre: "Public", url: "http://sba.radio.sa:8000/jeddah" },
+                    { name: "Hala FM", city: "Online", genre: "Khaleeji", url: "http://185.105.4.101:8000/;" },
+                    { name: "Star KSA", city: "Online", genre: "Arabic", url: "http://starksa.com:8000/;" },
+                    { name: "Tagalog ME", city: "Online", genre: "Filipino", url: "http://s5.voscast.com:8218/;" },
+                    { name: "Pinoy Heart Radio", city: "Online", genre: "Filipino", url: "http://s2.voscast.com:9888/;" },
+                    { name: "Miraath Radio", city: "Online", genre: "Islamic", url: "http://50.22.253.47:8000/;" },
+                    { name: "Sunnah Radio", city: "Online", genre: "Islamic", url: "http://50.22.253.47:8010/;" },
+                    { name: "Hawa Radio", city: "Online", genre: "Arabic", url: "http://hawaradio.com:8000/;" },
+                    { name: "Hala96", city: "Jeddah", genre: "Pop", url: "http://192.99.39.148:8090/;" }
+                ],
+                "Israel": [
+                    { name: "Galgalatz", city: "Tel Aviv", genre: "Top 40", url: "http://glzwizzlv.bynetcdn.com/glz_mp3" },
+                    { name: "Kan Bet", city: "Jerusalem", genre: "News/Talk", url: "http://kan-bet.media.kan.org.il/hls/live/2024823/2024823/playlist.m3u8" },
+                    { name: "Kan Gimmel", city: "Jerusalem", genre: "Hebrew Pop", url: "http://kan-gimel.media.kan.org.il/hls/live/2024824/2024824/playlist.m3u8" },
+                    { name: "Eco 99 FM", city: "Herzliya", genre: "Pop", url: "http://eco99fm.live.streamgates.net/eco99fm" },
+                    { name: "Radio 103FM", city: "Giv'atayim", genre: "Talk/Pop", url: "http://103fm.live.streamgates.net/103fm" },
+                    { name: "Radius 100FM", city: "Tel Aviv", genre: "Pop", url: "http://100fm.live.streamgates.net/100fm" },
+                    { name: "Radio Lev Hamedina", city: "Rishon LeZion", genre: "Mizrahi", url: "http://91fm.il.pricloud.com/91fm_mp3" },
+                    { name: "Kol Barama", city: "Bnei Brak", genre: "Religious", url: "http://kb.mediacast.co.il/kolbarama" },
+                    { name: "Radio Darom", city: "Beersheba", genre: "Local", url: "http://darom.mediacast.co.il/darom" },
+                    { name: "Jerusalem FM", city: "Jerusalem", genre: "Local", url: "http://101fm.il.pricloud.com/101fm_mp3" },
+                    { name: "Radio Tel Aviv", city: "Tel Aviv", genre: "Local", url: "http://102.live.streamgates.net/102" },
+                    { name: "Radio Haifa", city: "Haifa", genre: "Local", url: "http://1075.live.streamgates.net/1075" },
+                    { name: "Kol Rega", city: "Afula", genre: "Local", url: "http://96fm.il.pricloud.com/96fm_mp3" },
+                    { name: "Radio Mizrahit", city: "Online", genre: "Mizrahi", url: "http://mizrahit.fm:8000/;" },
+                    { name: "IDC Radio", city: "Herzliya", genre: "College", url: "http://idc.cdnwz.net/idc" },
+                    { name: "109FM", city: "Tel Aviv", genre: "Dance", url: "http://109fm.live.streamgates.net/109fm" },
+                    { name: "Radio SOL", city: "Online", genre: "Israeli Pop", url: "http://radiosol.co.il:8000/;" },
+                    { name: "Click FM", city: "Online", genre: "Dance", url: "http://clickfm.co.il:8000/;" },
+                    { name: "Radio Kol Chai", city: "Bnei Brak", genre: "Religious", url: "http://93fm.il.pricloud.com/93fm_mp3" },
+                    { name: "Galei Tzahal", city: "Jaffa", genre: "Public", url: "http://glzwizzlv.bynetcdn.com/glz_mp3" }
+                ],
+                "Singapore": [
+                    { name: "Kiss 92 FM", city: "Singapore", genre: "Pop", url: "http://20433.live.streamtheworld.com/KISS_92_SC" },
+                    { name: "Class 95 FM", city: "Singapore", genre: "Adult Contemporary", url: "http://mediacorp.rastream.com/mediacorp-class95" },
+                    { name: "Gold 90.5 FM", city: "Singapore", genre: "Classic Hits", url: "http://mediacorp.rastream.com/mediacorp-gold905" },
+                    { name: "987FM", city: "Singapore", genre: "Top 40", url: "http://mediacorp.rastream.com/mediacorp-987fm" },
+                    { name: "ONE FM 91.3", city: "Singapore", genre: "Rock", url: "http://20433.live.streamtheworld.com/ONE_FM_913_SC" },
+                    { name: "Money FM 89.3", city: "Singapore", genre: "Business News", url: "http://20433.live.streamtheworld.com/MONEY_FM_SC" },
+                    { name: "Symphony 92.4", city: "Singapore", genre: "Classical", url: "http://mediacorp.rastream.com/mediacorp-symphony924" },
+                    { name: "CNA938", city: "Singapore", genre: "News/Talk", url: "http://mediacorp.rastream.com/mediacorp-cna938" },
+                    { name: "Oli 96.8 FM", city: "Singapore", genre: "Tamil", url: "http://mediacorp.rastream.com/mediacorp-oli968" },
+                    { name: "Warna 94.2 FM", city: "Singapore", genre: "Malay", url: "http://mediacorp.rastream.com/mediacorp-warna942" },
+                    { name: "RIA 89.7 FM", city: "Singapore", genre: "Malay Pop", url: "http://mediacorp.rastream.com/mediacorp-ria897" },
+                    { name: "Love 97.2 FM", city: "Singapore", genre: "Chinese Pop", url: "http://mediacorp.rastream.com/mediacorp-love972" },
+                    { name: "Yes 93.3 FM", city: "Singapore", genre: "Chinese Top 40", url: "http://mediacorp.rastream.com/mediacorp-yes933" },
+                    { name: "Capital 95.8 FM", city: "Singapore", genre: "Chinese News", url: "http://mediacorp.rastream.com/mediacorp-capital958" },
+                    { name: "UFM100.3", city: "Singapore", genre: "Chinese Pop", url: "http://20433.live.streamtheworld.com/UFM_1003_SC" },
+                    { name: "96.3 Hao FM", city: "Singapore", genre: "Chinese Classic", url: "http://20433.live.streamtheworld.com/963_HAO_FM_SC" },
+                    { name: "Power 98", city: "Singapore", genre: "Pop", url: "http://172.99.93.187:8000/;" },
+                    { name: "Lush 99.5", city: "Singapore", genre: "Indie", url: "http://mediacorp.rastream.com/mediacorp-lush995" },
+                    { name: "AX R", city: "Online", genre: "Indie", url: "https://listen.axiossystems.com/axr-hd" },
+                    { name: "Desi Dance", city: "Online", genre: "Bollywood", url: "http://s2.radio.co/s27589eb43/listen" }
+                ],
+                "Hong Kong": [
+                    { name: "RTHK Radio 1", city: "Hong Kong", genre: "News/Talk", url: "http://rthk.hk/live/radio/channel1.m3u8" },
+                    { name: "RTHK Radio 2", city: "Hong Kong", genre: "Cantopop", url: "http://rthk.hk/live/radio/channel2.m3u8" },
+                    { name: "RTHK Radio 3", city: "Hong Kong", genre: "English News", url: "http://rthk.hk/live/radio/channel3.m3u8" },
+                    { name: "RTHK Radio 4", city: "Hong Kong", genre: "Classical", url: "http://rthk.hk/live/radio/channel4.m3u8" },
+                    { name: "Metro Info", city: "Hong Kong", genre: "Cantopop/Talk", url: "http://metroradio-wowza.warnermediacdn.com/info/playlist.m3u8" },
+                    { name: "Metro Finance", city: "Hong Kong", genre: "Business News", url: "http://metroradio-wowza.warnermediacdn.com/finance/playlist.m3u8" },
+                    { name: "Commercial Radio 1", city: "Hong Kong", genre: "Talk", url: "http://cr1.881903.com/c1.mp3" },
+                    { name: "Commercial Radio 2", city: "Hong Kong", genre: "Cantopop", url: "http://cr2.881903.com/c2.mp3" },
+                    { name: "D100 PBS", city: "Hong Kong", genre: "Talk", url: "http://livestream.d100.net:8000/d100pbs" },
+                    { name: "Billboard Radio China", city: "Hong Kong", genre: "Top 40", url: "http://billboard.radio.cn:8000/;" },
+                    { name: "RTHK Putonghua", city: "Hong Kong", genre: "Mandarin", url: "http://rthk.hk/live/radio/channelpth.m3u8" },
+                    { name: "Apple FM", city: "Hong Kong", genre: "Pop", url: "http://s1.applefm.net:8000/;" },
+                    { name: "Digital Radio HK", city: "Hong Kong", genre: "Talk/Music", url: "http://live.digitalradio.hk:8000/;" },
+                    { name: "Club HKGFM", city: "Hong Kong", genre: "Dance", url: "http://hkgfm.net:8000/Club" },
+                    { name: "Linn Jazz", city: "UK/Global", genre: "Jazz", url: "http://89.16.185.174:8000/stream" },
+                    { name: "Asia Hitz", city: "Hong Kong", genre: "Asian Pop", url: "http://hkgfm.net:8000/AsiaHitz" },
+                    { name: "80s / 90s HK", city: "Hong Kong", genre: "Classic Hits", url: "http://hkgfm.net:8000/80s90s" },
+                    { name: "Canton Pop", city: "Hong Kong", genre: "Cantopop", url: "http://hkgfm.net:8000/CantonPop" },
+                    { name: "Capital Disko", city: "Hong Kong", genre: "Disco", url: "http://hkgfm.net:8000/Disko" },
+                    { name: "XMR", city: "Hong Kong", genre: "Rock", url: "http://hkgfm.net:8000/XMR" }
+                ],
+                "Taiwan": [
+                    { name: "ICRT", city: "Taipei", genre: "Top 40", url: "http://live.leanstream.co/ICRT-MP3" },
+                    { name: "Kiss Radio", city: "Kaohsiung", genre: "Pop", url: "http://210.66.128.2:8000/kissradio-128" },
+                    { name: "Hit FM", city: "Taipei", genre: "Top 40", url: "http://203.75.143.153/hitoradio-128" },
+                    { name: "BCC News", city: "Taipei", genre: "News", url: "http://203.75.143.154/bcc-news-128" },
+                    { name: "UFO Radio", city: "Taipei", genre: "Pop", url: "http://203.75.143.153/uforadio-128" },
+                    { name: "City FM", city: "Taipei", genre: "Pop", url: "http://203.75.143.153/cityradio-128" },
+                    { name: "Asia FM", city: "Taipei", genre: "Pop", url: "http://203.75.143.153/asiafm-128" },
+                    { name: "Pop Radio", city: "Taipei", genre: "Pop", url: "http://203.75.143.153/popradio-128" },
+                    { name: "Voice of Taipei", city: "Taipei", genre: "Pop/Talk", url: "http://203.75.143.153/vot-128" },
+                    { name: "Super FM", city: "Taichung", genre: "Pop", url: "http://203.75.143.153/superfm-128" },
+                    { name: "NER", city: "Taipei", genre: "Public", url: "http://ner.hinet.net/ner-fm-128" },
+                    { name: "Good News Radio", city: "Taipei", genre: "Christian", url: "http://203.75.143.154/goodnews-128" },
+                    { name: "Bravo FM", city: "Taipei", genre: "Jazz", url: "http://203.75.143.153/bravofm-128" },
+                    { name: "RTI", city: "Taipei", genre: "International", url: "http://rti.cdn.hinet.net/rti-fm-128" },
+                    { name: "Sunshine Radio", city: "Hsinchu", genre: "Local", url: "http://203.75.143.153/sunshineradio-128" },
+                    { name: "Formosa Radio", city: "Taipei", genre: "Talk", url: "http://203.75.143.154/formosahakka-128" },
+                    { name: "Da Ai Radio", city: "Taipei", genre: "Buddhist", url: "http://daai.cdn.hinet.net/daai-radio-128" },
+                    { name: "Voice of Han", city: "Taipei", genre: "Public", url: "http://voh.cdn.hinet.net/voh-128" },
+                    { name: "Gold FM", city: "Taichung", genre: "Classic Pop", url: "http://203.75.143.153/goldfm-128" },
+                    { name: "TBC", city: "Taipei", genre: "Traffic", url: "http://tbc.cdn.hinet.net/tbc-128" }
+                ],
+                "Pakistan": [
+                    { name: "Radio Pakistan", city: "Islamabad", genre: "News/Talk", url: "http://111.68.103.26:8000/;" },
+                    { name: "City FM 89", city: "Karachi", genre: "Pop/Rock", url: "http://192.99.8.192:2436/;" },
+                    { name: "Samaa FM 107.4", city: "Karachi", genre: "News/Pop", url: "http://192.99.39.148:8320/;" },
+                    { name: "Hot FM 105", city: "Karachi", genre: "Pop", url: "http://192.99.39.148:8330/;" },
+                    { name: "FM 100", city: "Karachi", genre: "Pop", url: "http://192.99.39.148:8340/;" },
+                    { name: "Mast FM 103", city: "Karachi", genre: "Pop", url: "http://192.99.39.148:8350/;" },
+                    { name: "Apna Karachi 107", city: "Karachi", genre: "Pop", url: "http://192.99.39.148:8360/;" },
+                    { name: "Radio1 FM91", city: "Islamabad", genre: "Pop", url: "http://192.99.39.148:8370/;" },
+                    { name: "Power 99", city: "Islamabad", genre: "Talk/Pop", url: "http://192.99.39.148:8380/;" },
+                    { name: "Hum FM 106.2", city: "Karachi", genre: "Bollywood/Pop", url: "http://192.99.39.148:8390/;" },
+                    { name: "Suno Pakistan", city: "Islamabad", genre: "Pop", url: "http://192.99.39.148:8410/;" },
+                    { name: "Awaz FM", city: "Gujrat", genre: "Local", url: "http://192.99.39.148:8420/;" },
+                    { name: "Dhak Dhak Radio", city: "Online", genre: "Bollywood", url: "http://s2.radio.co/s27589eb43/listen" },
+                    { name: "Riphah FM", city: "Islamabad", genre: "Campus", url: "http://192.99.39.148:8430/;" },
+                    { name: "PBC Planet 94", city: "Islamabad", genre: "English Pop", url: "http://111.68.103.26:8000/fm94" },
+                    { name: "Rose FM", city: "Mirpur", genre: "Local", url: "http://192.99.39.148:8440/;" },
+                    { name: "Radio Jeevay", city: "Lahore", genre: "Punjabi", url: "http://192.99.39.148:8450/;" },
+                    { name: "VOA Urdu", city: "Online", genre: "News", url: "https://voa-channel-04.akacast.akamaistream.net/7/127/322055/v1/gnl.akacast.akamaistream.net/voa-channel-04" },
+                    { name: "BBC Urdu", city: "Online", genre: "News", url: "http://bbcwssc.ic.llnwd.net/stream/bbcwssc_urd_w_s_p" },
+                    { name: "Dosti Radio", city: "Online", genre: "Pop", url: "http://s2.radio.co/s27589eb43/listen" }
+                ],
+                "Bangladesh": [
+                    { name: "Radio Foorti", city: "Dhaka", genre: "Pop", url: "http://119.148.24.133:8000/;" },
+                    { name: "ABC Radio", city: "Dhaka", genre: "News/Pop", url: "http://ample-zeno-12.radio-log.com/a53z49q5p8zuv" },
+                    { name: "Radio Today", city: "Dhaka", genre: "Pop", url: "http://149.56.195.94:8386/;" },
+                    { name: "Dhaka FM", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8460/;" },
+                    { name: "Jago FM", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8470/;" },
+                    { name: "Capital FM", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8480/;" },
+                    { name: "Radio Bhumi", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8490/;" },
+                    { name: "Peoples Radio", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8500/;" },
+                    { name: "Radio Shadhin", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8510/;" },
+                    { name: "Colours FM", city: "Dhaka", genre: "Pop/Talk", url: "http://192.99.39.148:8520/;" },
+                    { name: "Radio Next", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8530/;" },
+                    { name: "Radio Dhoni", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8540/;" },
+                    { name: "Lemon24", city: "Online", genre: "Pop", url: "http://s2.radio.co/s27589eb43/listen" },
+                    { name: "Radio Aamar", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8550/;" },
+                    { name: "Radio Padma", city: "Rajshahi", genre: "Community", url: "http://192.99.39.148:8560/;" },
+                    { name: "Radio Mahananda", city: "Chapainawabganj", genre: "Community", url: "http://192.99.39.148:8570/;" },
+                    { name: "Spice FM", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8580/;" },
+                    { name: "Radio Dhol", city: "Dhaka", genre: "Pop", url: "http://192.99.39.148:8590/;" },
+                    { name: "Mrittika", city: "Online", genre: "Folk", url: "http://s2.radio.co/s27589eb43/listen" },
+                    { name: "Radio Edge", city: "Online", genre: "Rock", url: "http://s2.radio.co/s27589eb43/listen" }
+                ],
+                "Venezuela": [
+                    { name: "Union Radio", city: "Caracas", genre: "News", url: "http://190.153.25.10:8000/;" },
+                    { name: "La Mega", city: "Caracas", genre: "Pop/Rock", url: "http://190.153.25.10:8002/;" },
+                    { name: "Onda La Superestación", city: "Caracas", genre: "Adult Contemporary", url: "http://190.153.25.10:8004/;" },
+                    { name: "Circuito X", city: "Caracas", genre: "Top 40", url: "http://190.153.25.10:8006/;" },
+                    { name: "Planeta FM", city: "Caracas", genre: "Pop", url: "http://190.153.25.10:8008/;" },
+                    { name: "RCR 750 AM", city: "Caracas", genre: "News/Talk", url: "http://190.153.25.10:8010/;" },
+                    { name: "Exitos FM", city: "Caracas", genre: "Classic Hits", url: "http://190.153.25.10:8012/;" },
+                    { name: "Fiesta 106.5", city: "Caracas", genre: "Latin", url: "http://190.153.25.10:8014/;" },
+                    { name: "Radio Caracas Radio", city: "Caracas", genre: "News", url: "http://stream.rcr.com.ve:8000/;" },
+                    { name: "Hot 94.1", city: "Caracas", genre: "Top 40", url: "http://190.153.25.10:8016/;" },
+                    { name: "Rumbera Network", city: "Caracas", genre: "Latin", url: "http://190.153.25.10:8018/;" },
+                    { name: "Candela Pura", city: "Caracas", genre: "Salsa", url: "http://190.153.25.10:8020/;" },
+                    { name: "Lider 91.1", city: "Caracas", genre: "Pop", url: "http://190.153.25.10:8022/;" },
+                    { name: "Kys FM", city: "Caracas", genre: "Adult Contemporary", url: "http://190.153.25.10:8024/;" },
+                    { name: "Radiorama", city: "Caracas", genre: "Talk/Music", url: "http://190.153.25.10:8026/;" },
+                    { name: "RQ 910 AM", city: "Caracas", genre: "News/Talk", url: "http://190.153.25.10:8028/;" },
+                    { name: "Magica 99.1", city: "Caracas", genre: "Classic Hits", url: "http://190.153.25.10:8030/;" },
+                    { name: "Pacifica 90.7", city: "Caracas", genre: "Pop", url: "http://190.153.25.10:8032/;" },
+                    { name: "Adulto Joven", city: "Caracas", genre: "Pop", url: "http://190.153.25.10:8034/;" },
+                    { name: "Woao 88.1", city: "Valencia", genre: "Pop", url: "http://190.153.25.10:8036/;" }
+                ],
+                "Ecuador": [
+                    { name: "Radio Disney", city: "Quito", genre: "Pop", url: "http://184.154.43.181:8080/;" },
+                    { name: "JC Radio La Bruja", city: "Quito", genre: "Pop/Latin", url: "http://192.99.39.148:8600/;" },
+                    { name: "Radio Canela", city: "Quito", genre: "Latin", url: "http://192.99.39.148:8610/;" },
+                    { name: "Exa FM Ecuador", city: "Quito", genre: "Top 40", url: "http://192.99.39.148:8620/;" },
+                    { name: "Radio La Otra", city: "Quito", genre: "Pop", url: "http://192.99.39.148:8630/;" },
+                    { name: "Sonorama", city: "Quito", genre: "News/Talk", url: "http://192.99.39.148:8640/;" },
+                    { name: "Platinum FM", city: "Quito", genre: "Pop", url: "http://192.99.39.148:8650/;" },
+                    { name: "Radio América Stereo", city: "Quito", genre: "Latin", url: "http://192.99.39.148:8660/;" },
+                    { name: "Radio Armónica", city: "Cuenca", genre: "Pop", url: "http://192.99.39.148:8670/;" },
+                    { name: "La Radio Redonda", city: "Quito", genre: "Sports", url: "http://192.99.39.148:8680/;" },
+                    { name: "Radio Centro", city: "Guayaquil", genre: "News/Talk", url: "http://192.99.39.148:8690/;" },
+                    { name: "Radio i99", city: "Guayaquil", genre: "Pop", url: "http://192.99.39.148:8700/;" },
+                    { name: "Radio Caravana", city: "Guayaquil", genre: "Sports", url: "http://192.99.39.148:8710/;" },
+                    { name: "Radio Maria", city: "Quito", genre: "Religious", url: "http://192.99.39.148:8720/;" },
+                    { name: "CRE Satelital", city: "Guayaquil", genre: "News/Sports", url: "http://192.99.39.148:8730/;" }
                 ]
             };
 
-
-            const display = document.getElementById('display');
-            const audioPlayer = document.getElementById('audio-player');
             const countrySelect = document.getElementById('country-select');
             const stationList = document.getElementById('station-list');
+            const display = document.getElementById('display');
+            const audio = document.getElementById('audio-player');
+            let currentStationLi = null;
 
-            const countries = Object.keys(radioData).sort();
+            function populateCountries() {
+                const countries = Object.keys(radioData).sort();
+                countries.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country;
+                    option.textContent = country;
+                    countrySelect.appendChild(option);
+                });
+            }
 
-            countries.forEach(country => {
-                const option = document.createElement('option');
-                option.value = country;
-                option.textContent = country;
-                countrySelect.appendChild(option);
-            });
-
-            countrySelect.addEventListener('change', (e) => {
-                const selectedCountry = e.target.value;
-                displayStations(selectedCountry);
-            });
-
-            function displayStations(country) {
+            function loadStations(country) {
                 stationList.innerHTML = '';
                 if (!country) {
                     display.textContent = 'Select a country to see stations';
                     return;
                 }
-
-                display.textContent = `Showing stations for ${country}`;
                 const stations = radioData[country];
-
+                display.textContent = `Showing ${stations.length} stations for ${country}`;
+                
                 stations.forEach(station => {
                     const li = document.createElement('li');
                     li.setAttribute('role', 'option');
-                    li.setAttribute('aria-checked', 'false');
-                    li.setAttribute('tabindex', '0');
-                    li.dataset.url = station.url;
-                    li.dataset.info = `${station.name} — ${station.city} — ${station.genre}`;
+                    li.tabIndex = 0;
                     
                     const nameSpan = document.createElement('span');
                     nameSpan.className = 'station-name';
@@ -1091,80 +1483,52 @@
 
                     const genreSpan = document.createElement('span');
                     genreSpan.className = 'station-genre';
-                    genreSpan.textContent = station.genre;
+                    genreSpan.textContent = `${station.city} - ${station.genre}`;
                     
                     li.appendChild(nameSpan);
                     li.appendChild(genreSpan);
 
-                    li.addEventListener('click', () => playStation(li));
+                    li.addEventListener('click', () => playStation(station, li));
                     li.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault(); // Prevent page scroll on spacebar
-                            playStation(li);
+                            e.preventDefault();
+                            playStation(station, li);
                         }
                     });
-
                     stationList.appendChild(li);
                 });
             }
 
-            function playStation(listItem) {
-                const url = listItem.dataset.url;
-                const info = listItem.dataset.info;
-                
-                // Stop any existing playback and clear the source to prevent errors.
-                audioPlayer.pause();
-                audioPlayer.src = '';
-                // It is good practice to call load() after changing src
-                audioPlayer.load();
-
-                // Set the new stream URL
-                audioPlayer.src = url;
-                
-                const playPromise = audioPlayer.play();
-
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        // The 'AbortError' is a normal occurrence when a user
-                        // selects a new station before the old one has finished loading.
-                        // We can safely ignore it without displaying a user-facing error.
-                        if (error.name === 'AbortError') {
-                            console.info('Stream switch aborted previous load, this is normal.');
-                            return;
-                        }
-                        console.error("Audio playback failed:", error);
-                        display.textContent = `Error: Could not play ${info.split('—')[0].trim()}`;
-                    });
+            function playStation(station, li) {
+                if (currentStationLi) {
+                    currentStationLi.classList.remove('playing');
+                    currentStationLi.removeAttribute('aria-checked');
                 }
                 
-                display.textContent = `Now Playing: ${info}`;
-                
-                // Update playing status style and ARIA attribute
-                document.querySelectorAll('#station-list li').forEach(item => {
-                    item.classList.remove('playing');
-                    item.setAttribute('aria-checked', 'false');
+                audio.pause();
+                audio.src = ""; // Unload the source
+                audio.load();
+
+                audio.src = station.url;
+                audio.play().then(() => {
+                    display.textContent = `Now Playing: ${station.name} — ${station.city}`;
+                    li.classList.add('playing');
+                    li.setAttribute('aria-checked', 'true');
+                    currentStationLi = li;
+                }).catch(error => {
+                    display.textContent = `Error: Could not play ${station.name}`;
+                    li.classList.remove('playing');
+                    if (error.name !== 'AbortError') {
+                        console.error('Audio playback failed for', station.name, ':', error);
+                    }
                 });
-                listItem.classList.add('playing');
-                listItem.setAttribute('aria-checked', 'true');
             }
-            
-            audioPlayer.addEventListener('error', () => {
-                // The play() promise rejection now handles AbortError, but this event listener
-                // is a good fallback for other media errors (e.g., network, decoding).
-                if (audioPlayer.error && audioPlayer.error.code === audioPlayer.error.MEDIA_ERR_ABORTED) {
-                    return; // Don't show an error message if the user aborted it.
-                }
-                const currentStationItem = document.querySelector('#station-list li.playing');
-                if (currentStationItem) {
-                    const stationName = currentStationItem.dataset.info.split('—')[0].trim();
-                    display.textContent = `Error: Stream for ${stationName} is unavailable.`;
-                    currentStationItem.classList.remove('playing');
-                    currentStationItem.setAttribute('aria-checked', 'false');
-                } else {
-                    display.textContent = 'Error: The selected audio stream is unavailable.';
-                }
+
+            countrySelect.addEventListener('change', (e) => {
+                loadStations(e.target.value);
             });
 
+            populateCountries();
         });
     </script>
 </body>
