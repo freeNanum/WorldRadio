@@ -77,7 +77,12 @@ header h1 {
     margin-bottom: 20px;
 }
 
-#country-select {
+#country-search-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#country-search {
     width: 100%;
     padding: 12px;
     border-radius: 5px;
@@ -85,8 +90,45 @@ header h1 {
     background-color: #e3c9b4;
     color: var(--text-color);
     font-size: 1rem;
-    margin-bottom: 20px;
+}
+
+#country-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background: var(--display-bg);
+    border: 1px solid var(--shadow-light);
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+#country-list.visible {
+    display: block;
+}
+
+#country-list li {
+    padding: 10px 15px;
+    color: #eee;
     cursor: pointer;
+    border-bottom: 1px solid #444;
+}
+
+#country-list li:last-child {
+    border-bottom: none;
+}
+
+#country-list li:hover, #country-list li:focus {
+    background: #444;
+    outline: none;
 }
 
 #knobs {
