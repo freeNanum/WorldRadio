@@ -1,20 +1,69 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
 
-# Run and deploy your AI Studio app
+# World Radio - 빈티지 FM 라디오 웹 애플리케이션
 
-This contains everything you need to run your app locally.
+이 프로젝트는 전 세계의 FM 라디오 방송을 들을 수 있는 빈티지 스타일의 웹 기반 라디오 플레이어입니다. 사용자는 여러 국가를 탐색하고, 다양한 장르의 방송국을 청취하며, 좋아하는 방송을 즐겨찾기에 추가하여 자신만의 컬렉션을 만들 수 있습니다. 모든 기능은 외부 라이브러리 없이 순수 HTML, CSS, TypeScript로 구현되었습니다.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1slaK2NzsQbrIQ2T6CaMYjPrcpFsllU7l
+## ✨ 주요 기능
 
-## Run Locally
+- **전 세계 라디오 청취**: 다양한 국가의 수많은 라디오 방송국 스트림 제공.
+- **빈티지 디자인**: 아날로그 라디오를 연상시키는 따뜻하고 감성적인 사용자 인터페이스.
+- **국가 검색 기능**: 사용자가 원하는 국가를 쉽게 찾을 수 있는 검색 및 필터링 기능.
+- **장르별 정렬**: 선택된 국가의 방송국 목록을 장르별 알파벳순으로 정렬하여 탐색 편의성 제공.
+- **즐겨찾기 기능**: 좋아하는 방송국을 `localStorage`에 저장하여 언제든지 다시 들을 수 있음.
+- **반응형 디자인**: 데스크톱과 모바일 등 다양한 기기에서 최적화된 화면 제공.
+- **웹 접근성**: 스크린 리더 사용자를 위해 ARIA 속성을 적용하여 접근성 준수.
 
-**Prerequisites:**  Node.js
+## 🛠️ 기술 스택
 
+- **HTML5**: 애플리케이션의 구조와 콘텐츠 마크업.
+- **CSS3**: 빈티지 테마와 반응형 레이아웃을 포함한 모든 스타일링.
+- **TypeScript**: 애플리케이션의 모든 동적 로직과 상호작용을 처리 (외부 프레임워크 없음).
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🚀 실행 방법
+
+이 프로젝트는 정적 웹사이트이므로 별도의 빌드 과정 없이 쉽게 실행할 수 있습니다.
+
+1.  **저장소 복제(Clone)**:
+    ```bash
+    git clone <repository-url>
+    ```
+
+2.  **파일 열기**:
+    -   다운로드한 폴더에서 `index.html` 파일을 웹 브라우저로 직접 열면 됩니다.
+    -   개발 환경에서는 로컬 서버를 사용하는 것을 권장합니다. (예: `npx serve` 실행)
+
+## 📂 파일 구조
+
+```
+.
+├── index.html          # 메인 HTML 파일 (애플리케이션 구조)
+├── index.css           # 스타일시트 (디자인 및 레이아웃)
+├── index.tsx           # TypeScript 파일 (핵심 로직 및 상호작용)
+├── radio-data.tsx      # 라디오 방송국 데이터 (국가별 목록)
+├── LICENSE             # MIT 라이선스 파일
+└── README.md           # 프로젝트 설명 파일
+```
+
+## 🤝 기여 방법
+
+이 프로젝트에 기여하고 싶으시다면 언제든지 환영합니다! 특히 새로운 라디오 방송국을 추가하는 것은 큰 도움이 됩니다.
+
+### 라디오 방송국 추가 또는 수정하기
+
+1.  `radio-data.tsx` 파일을 엽니다.
+2.  수정하거나 추가하고 싶은 국가를 찾습니다. 국가가 없다면 새로 추가할 수 있습니다.
+3.  `Station` 객체 형식에 맞게 방송국 정보를 추가합니다.
+    ```typescript
+    {
+        name: "방송국 이름",
+        city: "도시",
+        genre: "장르",
+        url: "실시간 스트리밍 URL"
+    }
+    ```
+4.  **중요**: 추가하는 `url`이 실제로 작동하는 스트리밍 주소인지 반드시 확인해주세요.
+5.  수정이 완료되면 Pull Request를 생성하여 변경 사항을 제안할 수 있습니다.
+
+## 📄 라이선스
+
+이 프로젝트는 [MIT 라이선스](./LICENSE)를 따릅니다.
