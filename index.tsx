@@ -7,10 +7,94 @@ document.addEventListener('DOMContentLoaded', () => {
     const display = document.getElementById('display') as HTMLDivElement;
     const countrySearchInput = document.getElementById('country-search') as HTMLInputElement;
     const countryList = document.getElementById('country-list') as HTMLUListElement;
+    const favoritesBtn = document.getElementById('favorites-btn') as HTMLButtonElement;
 
     const allCountries = Object.keys(radioData).sort();
+    const FAVORITES_KEY = 'worldRadioFavorites';
+    let favorites = new Set<string>();
+    let isFavoritesView = false;
+    let lastSelectedCountry = '';
+
+    const loadFavorites = () => {
+        const savedFavorites = localStorage.getItem(FAVORITES_KEY);
+        if (savedFavorites) {
+            favorites = new Set(JSON.parse(savedFavorites));
+        }
+    };
+
+    const saveFavorites = () => {
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(Array.from(favorites)));
+    };
+
+    const updateFavoriteButton = (button: HTMLButtonElement, isFavorited: boolean, stationName: string) => {
+        button.classList.toggle('favorited', isFavorited);
+        button.textContent = isFavorited ? '★' : '☆';
+        button.setAttribute('aria-pressed', String(isFavorited));
+        button.setAttribute('aria-label', isFavorited ? `Unfavorite ${stationName}` : `Favorite ${stationName}`);
+    };
+
+    const toggleFavorite = (country: string, station: Station, favButton: HTMLButtonElement) => {
+        const stationId = `${country}:${station.name}`;
+        if (favorites.has(stationId)) {
+            favorites.delete(stationId);
+        } else {
+            favorites.add(stationId);
+        }
+        saveFavorites();
+        updateFavoriteButton(favButton, favorites.has(stationId), station.name);
+
+        if (isFavoritesView) {
+            displayFavorites();
+        }
+    };
+    
+    const createStationListItem = (station: Station, country: string) => {
+        const listItem = document.createElement('li');
+        listItem.tabIndex = 0;
+        listItem.setAttribute('role', 'option');
+        listItem.setAttribute('aria-selected', 'false');
+
+        const stationInfo = document.createElement('div');
+        stationInfo.className = 'station-info';
+
+        const stationName = document.createElement('span');
+        stationName.className = 'station-name';
+        stationName.textContent = station.name;
+
+        const stationGenre = document.createElement('span');
+        stationGenre.className = 'station-genre';
+        stationGenre.textContent = station.genre;
+        
+        stationInfo.appendChild(stationName);
+        stationInfo.appendChild(stationGenre);
+
+        const stationId = `${country}:${station.name}`;
+        const favButton = document.createElement('button');
+        favButton.className = 'favorite-btn';
+        const isFavorited = favorites.has(stationId);
+        updateFavoriteButton(favButton, isFavorited, station.name);
+
+        favButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite(country, station, favButton);
+        });
+
+        const clickHandler = () => playStation(station, listItem);
+        listItem.addEventListener('click', clickHandler);
+        listItem.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                clickHandler();
+            }
+        });
+
+        listItem.appendChild(stationInfo);
+        listItem.appendChild(favButton);
+        return listItem;
+    };
 
     const displayStations = (country: string) => {
+        lastSelectedCountry = country;
         stationList.innerHTML = '';
         if (!country || !radioData[country]) {
             display.textContent = 'Select a country to see stations';
@@ -22,34 +106,36 @@ document.addEventListener('DOMContentLoaded', () => {
         stations.sort((a, b) => a.genre.localeCompare(b.genre));
 
         stations.forEach(station => {
-            const listItem = document.createElement('li');
-            listItem.tabIndex = 0;
-            listItem.setAttribute('role', 'option');
-            listItem.setAttribute('aria-selected', 'false');
-
-            const stationName = document.createElement('span');
-            stationName.className = 'station-name';
-            stationName.textContent = station.name;
-
-            const stationGenre = document.createElement('span');
-            stationGenre.className = 'station-genre';
-            stationGenre.textContent = station.genre;
-            
-            listItem.appendChild(stationName);
-            listItem.appendChild(stationGenre);
-
-            const clickHandler = () => playStation(station, listItem);
-            listItem.addEventListener('click', clickHandler);
-            listItem.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    clickHandler();
-                }
-            });
-
+            const listItem = createStationListItem(station, country);
             stationList.appendChild(listItem);
         });
         display.textContent = `Showing ${stations.length} stations for ${country}`;
+    };
+    
+    const displayFavorites = () => {
+        stationList.innerHTML = '';
+        if (favorites.size === 0) {
+            display.textContent = 'You have no favorite stations yet.';
+            return;
+        }
+
+        display.textContent = `Showing ${favorites.size} favorite stations`;
+        const favoriteStations: { station: Station, country: string }[] = [];
+        
+        favorites.forEach(stationId => {
+            const [country, stationName] = stationId.split(':', 2);
+            const stationData = radioData[country]?.find(s => s.name === stationName);
+            if (stationData) {
+                favoriteStations.push({ station: stationData, country });
+            }
+        });
+        
+        favoriteStations.sort((a,b) => a.station.name.localeCompare(b.station.name));
+
+        favoriteStations.forEach(({ station, country }) => {
+            const listItem = createStationListItem(station, country);
+            stationList.appendChild(listItem);
+        });
     };
 
     const playStation = (station: Station, listItem: HTMLLIElement) => {
@@ -119,6 +205,18 @@ document.addEventListener('DOMContentLoaded', () => {
         countrySearchInput.setAttribute('aria-expanded', 'true');
     };
 
+    favoritesBtn.addEventListener('click', () => {
+        isFavoritesView = !isFavoritesView;
+        favoritesBtn.classList.toggle('active', isFavoritesView);
+        countrySearchInput.disabled = isFavoritesView;
+
+        if (isFavoritesView) {
+            displayFavorites();
+        } else {
+            displayStations(lastSelectedCountry);
+        }
+    });
+
     countrySearchInput.addEventListener('input', () => {
         updateCountryList(countrySearchInput.value);
     });
@@ -133,4 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
             countrySearchInput.setAttribute('aria-expanded', 'false');
         }, 200);
     });
+
+    loadFavorites();
 });

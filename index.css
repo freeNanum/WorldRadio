@@ -77,9 +77,15 @@ header h1 {
     margin-bottom: 20px;
 }
 
+.control-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
 #country-search-container {
     position: relative;
-    margin-bottom: 20px;
+    flex-grow: 1;
 }
 
 #country-search {
@@ -91,6 +97,35 @@ header h1 {
     color: var(--text-color);
     font-size: 1rem;
 }
+
+#country-search:disabled {
+    background-color: #bca99a;
+    cursor: not-allowed;
+}
+
+
+#favorites-btn {
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--shadow-light);
+    background-color: #e3c9b4;
+    color: var(--text-color);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#favorites-btn:hover {
+    background-color: #d3b9a4;
+}
+
+#favorites-btn.active {
+    background-color: var(--display-text-color);
+    color: var(--display-bg);
+    border-color: var(--display-text-color);
+    text-shadow: 0 0 2px var(--display-bg);
+}
+
 
 #country-list {
     display: none;
@@ -182,19 +217,45 @@ header h1 {
     border-bottom: 1px solid #444;
     transition: background 0.2s, color 0.2s;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 #station-list li:last-child {
     border-bottom: none;
 }
 
-#station-list li .station-name {
+.station-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.station-name {
     font-weight: bold;
 }
-#station-list li .station-genre {
+.station-genre {
     font-size: 0.9em;
     color: #aaa;
 }
+
+.favorite-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.favorite-btn:hover {
+    color: #fff;
+}
+
+.favorite-btn.favorited {
+    color: var(--display-text-color);
+    text-shadow: 0 0 5px var(--display-text-color);
+}
+
 
 #station-list li:hover, #station-list li:focus {
     background: #444;
@@ -208,6 +269,13 @@ header h1 {
 }
 #station-list li.playing .station-genre {
     color: #333;
+}
+#station-list li.playing .favorite-btn {
+    color: #111;
+}
+#station-list li.playing .favorite-btn.favorited {
+    color: #111;
+    text-shadow: none;
 }
 
 .sr-only {

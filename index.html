@@ -19,10 +19,13 @@
             <div id="display" role="status" aria-live="polite">Select a country to see stations</div>
             <audio id="audio-player" controls aria-label="Audio Player"></audio>
             <div id="controls">
-                <label for="country-search" class="sr-only">Search for a Country</label>
-                <div id="country-search-container">
-                    <input type="text" id="country-search" placeholder="Search for a country..." autocomplete="off" aria-controls="country-list" aria-expanded="false" role="combobox">
-                    <ul id="country-list" role="listbox"></ul>
+                <div class="control-group">
+                    <label for="country-search" class="sr-only">Search for a Country</label>
+                    <div id="country-search-container">
+                        <input type="text" id="country-search" placeholder="Search for a country..." autocomplete="off" aria-controls="country-list" aria-expanded="false" role="combobox">
+                        <ul id="country-list" role="listbox"></ul>
+                    </div>
+                    <button id="favorites-btn" aria-label="Show Favorites">Favorites</button>
                 </div>
                 <div id="knobs" aria-hidden="true">
                     <div class="knob"></div>
